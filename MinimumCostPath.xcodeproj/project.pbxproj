@@ -28,7 +28,7 @@
 		B81CBDFC29FF681B00B0161F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B871E7EE2A051EE600470E51 /* Solution.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Solution.cpp; sourceTree = "<group>"; };
 		B871E7EF2A051EE600470E51 /* Solution.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Solution.hpp; sourceTree = "<group>"; };
-		B871E8052A07669700470E51 /* File */ = {isa = PBXFileReference; lastKnownFileType = text; path = File; sourceTree = "<group>"; };
+		B871E8062A089D9B00470E51 /* File.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = File.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +64,7 @@
 				B81CBDFC29FF681B00B0161F /* main.cpp */,
 				B871E7EE2A051EE600470E51 /* Solution.cpp */,
 				B871E7EF2A051EE600470E51 /* Solution.hpp */,
-				B871E8052A07669700470E51 /* File */,
+				B871E8062A089D9B00470E51 /* File.txt */,
 			);
 			path = MinimumCostPath;
 			sourceTree = "<group>";

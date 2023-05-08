@@ -26,7 +26,7 @@ int main(int argc, const char * argv[]) {
     getline(input, q_temp);
     
     int q = stoi(ltrim(rtrim(q_temp)));
-    vector<vector<int>>a;
+    vector<vector<int>>a(q);
     for(int q_itr=0;q_itr<q;++q_itr)
     {
         string first_multiple_input_temp;
@@ -38,13 +38,12 @@ int main(int argc, const char * argv[]) {
         
 
         for (int i = 0; i < q; i++) {
-            int a_item = stol(a_temp[i]);
+            int a_item = stoi(a_temp[i]);
 
-            a[q_itr][i] = a_item;
+            a[q_itr].push_back(a_item);
         }
         
     }
-    
     Solution soln;
     int ans = soln.minimumCostPath(a);
     
