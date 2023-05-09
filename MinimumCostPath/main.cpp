@@ -44,6 +44,14 @@ int main(int argc, const char * argv[]) {
         }
         
     }
+//    for(int i=0;i<q;++i)
+//    {
+//        for(int j=0;j<q;++j)
+//        {
+//            cout << a[i][j] << " ";
+//        }
+//        cout << endl;
+//    }
     Solution soln;
     int ans = soln.minimumCostPath(a);
     
