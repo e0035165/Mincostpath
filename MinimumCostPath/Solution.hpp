@@ -19,6 +19,7 @@
 #include <list>
 #include <vector>
 #include <iostream>
+#include <set>
 using namespace std;
 
 class Solution
@@ -28,7 +29,7 @@ public:
     {
         int SIDE_SIZE = grid[0].size();
         int SIZE = (int)grid[0].size() * (int)grid.size();
-        bool* visited = new bool[SIZE];
+        //bool* visited = new bool[SIZE];
         int** minimumvalues = new int*[SIDE_SIZE];
         for(int i=0;i<SIDE_SIZE;++i)
         {
@@ -39,19 +40,19 @@ public:
             }
         }
         minimumvalues[0][0] = grid[0][0];
-        for(int i=0;i<SIZE;++i)
-        {
-            visited[i] = false;
-        }
-        
-        queue<pair<int,int>>permutations;
-        
-        permutations.push(pair<int,int>(0, grid[0][0]));
+
+        set<pair<int,int>>permutations;
         int position = 0;
+        permutations.insert(pair<int,int>(0, grid[0][0]));
         do{
-            pair<int,int>current_position = permutations.front();
-            position = current_position.first;
             
+            
+            pair<int,int>current_position = *permutations.begin();
+            position = current_position.first;
+            //            if(current_position.second < minimumvalues[position/SIDE_SIZE][position%SIDE_SIZE])
+            //            {
+            //                permutations.erase(permutations.begin());
+            //            } else {
             int x = position/SIDE_SIZE;
             int y = position%SIDE_SIZE;
             //cout << "Current position: " << position << " ";
@@ -63,8 +64,8 @@ public:
                 
                 if(minimumvalues[x][y] + grid[x-1][y] < minimumvalues[x-1][y])
                 {
-                    permutations.push(pair<int,int>(new_position, grid[x-1][y]));
                     minimumvalues[x-1][y] = minimumvalues[x][y] + grid[x-1][y];
+                    permutations.insert(pair<int,int>(new_position,minimumvalues[x-1][y]));
                 }
             }
             //Down
@@ -72,11 +73,10 @@ public:
             if(x+1<SIDE_SIZE)
             {
                 //cout << " DOWN Position : " << new_position << " ";
-                
                 if(minimumvalues[x][y] + grid[x+1][y] < minimumvalues[x+1][y])
                 {
-                    permutations.push(pair<int,int>(new_position, grid[x+1][y]));
                     minimumvalues[x+1][y] = minimumvalues[x][y] + grid[x+1][y];
+                    permutations.insert(pair<int,int>(new_position,minimumvalues[x+1][y]));
                 }
             }
             
@@ -85,11 +85,10 @@ public:
             if(y+1<SIDE_SIZE)
             {
                 //cout << " Left Position : " << new_position << " ";
-                
                 if(minimumvalues[x][y] + grid[x][y+1] < minimumvalues[x][y+1])
                 {
-                    permutations.push(pair<int,int>(new_position, grid[x][y+1]));
                     minimumvalues[x][y+1] = minimumvalues[x][y] + grid[x][y+1];
+                    permutations.insert(pair<int,int>(new_position,minimumvalues[x][y+1]));
                 }
             }
             
@@ -101,12 +100,14 @@ public:
                 
                 if(minimumvalues[x][y] + grid[x][y-1] < minimumvalues[x][y-1])
                 {
-                    permutations.push(pair<int,int>(new_position, grid[x][y-1]));
                     minimumvalues[x][y-1] = minimumvalues[x][y] + grid[x][y-1];
+                    permutations.insert(pair<int,int>(new_position,minimumvalues[x][y-1]));
                 }
             }
+            permutations.erase(permutations.begin());
             
-            permutations.pop();
+        //}
+            
             
         }while(!permutations.empty());
         
