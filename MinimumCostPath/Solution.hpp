@@ -29,6 +29,7 @@ public:
     {
         int SIDE_SIZE = grid[0].size();
         int SIZE = (int)grid[0].size() * (int)grid.size();
+        //bool* visited = new bool[SIZE];
         int** minimumvalues = new int*[SIDE_SIZE];
         for(int i=0;i<SIDE_SIZE;++i)
         {
@@ -40,97 +41,68 @@ public:
         }
         minimumvalues[0][0] = grid[0][0];
         
-        queue<pair<int,int>>permutations;
+        queue<int>permutations;
         
-        permutations.push(pair<int,int>(0, grid[0][0]));
+        permutations.push(0);
         int position = 0;
+        int prev_position = -1;
         do{
-            pair<int,int>current_position = permutations.front();
-            position = current_position.first;
-            
+            position = permutations.front();
             int x = position/SIDE_SIZE;
             int y = position%SIDE_SIZE;
+            
             //cout << "Current position: " << position << " ";
             //UP
-            if(current_position.second < minimumvalues[position/SIDE_SIZE][position%SIDE_SIZE])
+            int new_position = (x-1)*SIDE_SIZE + y;
+            if(x-1>=0)
             {
-                permutations.pop();
-                continue;
-            } else {
-                int new_position = (x-1)*SIDE_SIZE + y;
-                if(x-1>=0)
+                if(minimumvalues[x][y] + grid[x-1][y] < minimumvalues[x-1][y])
                 {
-                    if(minimumvalues[x][y] + grid[x-1][y] < minimumvalues[x-1][y])
-                    {
-                        minimumvalues[x-1][y] = minimumvalues[x][y] + grid[x-1][y];
-                        permutations.push(pair<int,int>(new_position,minimumvalues[x-1][y]));
-                    }
+                    minimumvalues[x-1][y] = minimumvalues[x][y] + grid[x-1][y];
+                    permutations.push(new_position);
                 }
-                //Down
-                new_position = (x+1)*SIDE_SIZE + y;
-                if(x+1<SIDE_SIZE)
+            }
+            //Down
+            new_position = (x+1)*SIDE_SIZE + y;
+            if(x+1<SIDE_SIZE)
+            {
+                if(minimumvalues[x][y] + grid[x+1][y] < minimumvalues[x+1][y])
                 {
-                    if(minimumvalues[x][y] + grid[x+1][y] < minimumvalues[x+1][y])
-                    {
-                        minimumvalues[x+1][y] = minimumvalues[x][y] + grid[x+1][y];
-                        permutations.push(pair<int,int>(new_position,minimumvalues[x+1][y]));
-                    }
+                    minimumvalues[x+1][y] = minimumvalues[x][y] + grid[x+1][y];
+                    permutations.push(new_position);
                 }
-                
-                //Left
-                new_position = (x)*SIDE_SIZE + (y+1);
-                if(y+1<SIDE_SIZE)
-                {
-                    if(minimumvalues[x][y] + grid[x][y+1] < minimumvalues[x][y+1])
-                    {
-                        permutations.push(pair<int,int>(new_position,minimumvalues[x][y+1]));
-                        minimumvalues[x][y+1] = minimumvalues[x][y] + grid[x][y+1];
-                    }
-                }
-                
-                //Right
-                new_position = (x*SIDE_SIZE) + (y-1);
-                if(y-1>=0)
-                {
-                    if(minimumvalues[x][y] + grid[x][y-1] < minimumvalues[x][y-1])
-                    {
-                        minimumvalues[x][y-1] = minimumvalues[x][y] + grid[x][y-1];
-                        permutations.push(pair<int,int>(new_position, minimumvalues[x][y-1]));
-                    }
-                }
-                permutations.pop();
             }
             
+            //Left
+            new_position = (x)*SIDE_SIZE + (y+1);
+            if(y+1<SIDE_SIZE)
+            {
+                if(minimumvalues[x][y] + grid[x][y+1] < minimumvalues[x][y+1])
+                {
+                    permutations.push(new_position);
+                    minimumvalues[x][y+1] = minimumvalues[x][y] + grid[x][y+1];
+                }
+            }
             
+            //Right
+            new_position = (x*SIDE_SIZE) + (y-1);
+            if(y-1>=0)
+            {
+                if(minimumvalues[x][y] + grid[x][y-1] < minimumvalues[x][y-1])
+                {
+                    minimumvalues[x][y-1] = minimumvalues[x][y] + grid[x][y-1];
+                    permutations.push(new_position);
+                }
+            }
+            prev_position = position;
+            permutations.pop();
         }while(!permutations.empty());
         
         //cout << minimumvalues[SIDE_SIZE-1][SIDE_SIZE-1] << endl;
         return minimumvalues[SIDE_SIZE-1][SIDE_SIZE-1];
     }
     
-    long naiveRecursiveMtd(int x, int y, vector<vector<int>>&grid)
-    {
-        if(x == grid.size() || y == grid[0].size())
-        {
-            return 0;
-        }
-        
-        if(x < 0 || y < 0)
-        {
-            return INT_MAX;
-        }
-        
-        long A = grid[x][y] + naiveRecursiveMtd(x-1, y, grid);
-        long B = grid[x][y] + naiveRecursiveMtd(x+1, y, grid);
-        long C = grid[x][y] + naiveRecursiveMtd(x, y-1, grid);
-        long D = grid[x][y] + naiveRecursiveMtd(x, y+1, grid);
-        
-        long min = A > B ? B : A;
-        min = min > C ? C : min;
-        min = min > D ? D : min;
-        return min;
-        
-    }
+
     
 };
 
