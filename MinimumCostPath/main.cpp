@@ -54,7 +54,9 @@ int main(int argc, const char * argv[]) {
 //    }
     Solution soln;
     int ans = soln.minimumCostPath(a);
+    
     cout << ans << endl;
+    
     return 0;
 }
 
